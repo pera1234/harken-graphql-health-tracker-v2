@@ -1,4 +1,3 @@
-#after REPORTER_PLUS subscription the user can have linked accounts
 type User {
     id: String
     firstname: String
@@ -10,11 +9,7 @@ type User {
     address: Address
     reports: [Report]
 }
-#
-# Roles:
-# Authenticated: DEFAULT, REPORTER(single location within city), REPORTER_PLUS(multiple locations within city),
-# REPORTER_ENTERPRISE(multiple locations within multiple cities)
-# REPORTER* requires subscription via stripeJS
+
 enum Role {
     DEFAULT
     REPORTER
