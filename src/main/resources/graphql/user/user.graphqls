@@ -1,0 +1,40 @@
+#after REPORTER_PLUS subscription the user can have linked accounts
+type User {
+    id: String
+    firstname: String
+    lastname: String
+    avatar: String
+    email: String!
+    password: String!
+    role: Role
+    address: Address
+    reports: [Report]
+}
+#
+# Roles:
+# Authenticated: DEFAULT, REPORTER(single location within city), REPORTER_PLUS(multiple locations within city),
+# REPORTER_ENTERPRISE(multiple locations within multiple cities)
+# REPORTER* requires subscription via stripeJS
+enum Role {
+    DEFAULT
+    REPORTER
+    REPORTER_PLUS
+}
+
+input UserInput {
+    firstname: String
+    lastname: String
+    email: String!
+    password: String!
+    role: Role
+    addressInput: AddressInput
+}
+
+input UserUpdateInput {
+    firstname: String
+    lastname: String
+    email: String
+    password: String
+    role: Role
+    addressInput: AddressUpdateInput
+}

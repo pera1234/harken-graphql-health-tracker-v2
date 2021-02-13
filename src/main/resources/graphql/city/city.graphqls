@@ -1,0 +1,12 @@
+type City {
+    id: String
+    city: String
+    lat: String
+    lng: String
+}
+
+type CityInput {
+    city: ID!
+    lat: String
+    lng: String
+}

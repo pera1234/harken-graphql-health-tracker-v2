@@ -1,0 +1,10 @@
+type HistoryPoint {
+    measureDate: Float
+    level: Int
+    reports: [String]
+}
+
+input HistoryPointInput {
+    measureDate: Float
+    level: Int
+}

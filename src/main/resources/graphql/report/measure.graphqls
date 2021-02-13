@@ -1,0 +1,20 @@
+type Measure {
+    measureDate: DateTime
+    level: String
+    device: String
+    diabetesIndicator: DiabetesIndicator
+    pinLocation: PinLocation
+}
+
+input MeasureInput {
+    measureDate: DateTime
+    level: String
+    device: String
+    diabetesIndicator: DiabetesIndicator
+    pinLocation: PinLocationInput
+}
+
+enum DiabetesIndicator {
+    CHOLESTEROL
+    BLOOD_SUGAR
+}

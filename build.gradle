@@ -1,0 +1,73 @@
+plugins {
+	id 'org.springframework.boot' version '2.3.7.RELEASE'
+	id 'io.spring.dependency-management' version '1.0.10.RELEASE'
+	id 'java'
+}
+
+apply plugin: 'io.spring.dependency-management'
+apply plugin: 'idea'
+apply plugin: 'maven'
+
+group = 'com.harken'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+	jcenter()
+}
+
+dependencies {
+	compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.11'
+	implementation group: 'commons-io', name: 'commons-io', version: '2.8.0'
+	compile group: 'com.jayway.jsonpath', name: 'json-path', version: '2.5.0'
+
+
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+//	implementation 'org.springframework.boot:spring-boot-starter-security'
+//	implementation group: 'com.auth0', name: 'java-jwt', version: '3.12.0'
+
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-mongodb', version: '2.4.2'
+	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-cache', version: '2.4.2'
+	implementation group: 'com.github.ben-manes.caffeine', name: 'caffeine', version: '2.8.8'
+
+	implementation group: 'com.graphql-java', name: 'graphql-java', version: '16.2', {
+		exclude group: 'com.graphql-java', module: 'java-dataloader'
+	}
+	implementation group: 'com.graphql-java', name: 'graphql-java-tools', version: '5.2.4'
+	implementation 'com.graphql-java:graphql-java-spring-boot-starter-webmvc:2.0'
+	compile group: 'com.graphql-java', name: 'graphql-java-extended-scalars', version: '15.0.0', {
+		exclude group: "com.graphql-java", module: "graphql-java"
+	}
+	implementation group: 'com.graphql-java', name: 'java-dataloader', version: '2.2.3'
+	implementation group: 'com.google.guava', name: 'guava', version: '30.1-jre'
+
+	testImplementation group: 'com.graphql-java', name: 'graphql-spring-boot-starter-test', version: '5.0.2'
+
+	implementation group: 'com.graphql-java-kickstart', name: 'playground-spring-boot-starter', version: '11.0.0'
+
+	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+
+	implementation 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+
+	testImplementation('org.springframework.boot:spring-boot-starter-test') {
+		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+	}
+	testImplementation 'org.springframework.security:spring-security-test'
+	testImplementation 'org.projectlombok:lombok'
+	testAnnotationProcessor 'org.projectlombok:lombok'
+	testImplementation ('de.flapdoodle.embed:de.flapdoodle.embed.mongo')
+
+}
+
+test {
+	useJUnitPlatform()
+}

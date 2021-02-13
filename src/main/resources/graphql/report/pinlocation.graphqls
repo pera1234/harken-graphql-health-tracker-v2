@@ -1,0 +1,9 @@
+type PinLocation {
+    latitude: String!
+    longitude: String!
+}
+
+input PinLocationInput {
+    latitude: String!
+    longitude: String!
+}

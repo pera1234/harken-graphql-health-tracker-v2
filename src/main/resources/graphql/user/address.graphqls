@@ -1,0 +1,16 @@
+type Address {
+    street: String
+    city: City!
+    postcode: String
+}
+
+input AddressInput {
+    street: String
+    city: String!
+    postcode: String
+}
+
+input AddressUpdateInput {
+    street: String
+    postcode: String
+}

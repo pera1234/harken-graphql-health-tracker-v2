@@ -1,0 +1,60 @@
+type Report {
+    id: String
+    user: User!
+    city: City
+    measure: Measure!
+}
+
+input ReportInput {
+    userId: ID!
+    cityId: ID!
+    measureInput: MeasureInput!
+}
+
+input ReportUpdateInput {
+    measureInput: MeasureInput!
+}
+
+type ReportPage {
+    totalElements: Float
+    totalPages: Int
+    page: Int
+    content: [Report]
+}
+
+input ReportPageInput {
+    filter: FilterModel
+    page: Int!
+    size: Int!
+    sort: SortModel
+}
+
+input FilterModel {
+    columnField: String
+    operatorValue: String
+    value: String
+}
+
+input SortModel {
+    field: String
+    sort: String
+}
+
+#used for relay spec based pagination -
+#this is cursor based pagination and would be more performant in very large datasets
+type ReportConnection {
+    edges: [ReportEdge]
+    pageInfo: PageInfo
+}
+
+type ReportEdge {
+    cursor: String
+    node: Report
+}
+
+type PageInfo {
+    hasPreviousPage: Boolean!
+    endCursor: String
+    hasNextPage: Boolean!
+    startCursor: String
+}

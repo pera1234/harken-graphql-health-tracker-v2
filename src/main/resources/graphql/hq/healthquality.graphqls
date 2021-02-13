@@ -1,0 +1,24 @@
+type HealthQuality {
+    id: String
+    city: ID
+    measureDate: DateTime
+    cholesterolLevel: Level
+    bloodsugarLevel: Level
+}
+
+input HealthQualityInput {
+    city: ID
+    measureDate: DateTime
+    cholesterolLevel: LevelInput
+    bloodsugarLevel: LevelInput
+}
+
+type HealthHistory {
+    city: String
+    histories: [HistoryPoint]
+}
+
+input HealthHistoryInput {
+    city: ID!
+    diabetesIndicator: DiabetesIndicator
+}

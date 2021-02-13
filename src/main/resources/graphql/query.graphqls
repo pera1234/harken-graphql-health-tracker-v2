@@ -1,0 +1,47 @@
+scalar DateTime
+
+schema {
+    query : Query
+    mutation : Mutation
+}
+
+type Query {
+    users: [User]
+    userById(id: ID!): User
+    userByEmail(email: String!): User
+
+    reportById(id: ID): Report
+    reportsByUser(userId: ID!): [Report]
+    reportsIn(reportIds: [String]!): [Report]
+
+    #server side offset based pagination
+    reports(reportPageInput: ReportPageInput): ReportPage
+
+    #server side cursor based pagination
+    #    reportsPaginatedByCursor(
+    #        first: Int,
+    #        after: String,
+    #        last: Int,
+    #        before: String): ReportConnection
+
+    cityById(id: ID): City
+    city(city: String): City
+    cities: [City]
+
+    healthQualityById(id: ID): HealthQuality
+    healthQualitySummary(city: String, measureDate: DateTime): HealthQuality
+    healthQualities: [HealthQuality]
+    healthQualityHistory(healthHistoryInput: HealthHistoryInput): HealthHistory
+}
+
+type Mutation {
+    createUser(userInput: UserInput): User
+    updateUser(id: String!, userUpdateInput: UserUpdateInput): User
+
+    createReport(reportInput: ReportInput): Report
+    updateReport(id: ID!, reportUpdateInput: ReportUpdateInput): Report
+    createReports(reports: [ReportInput]): String
+
+    createHQSummary(healthQuality: HealthQualityInput): HealthQuality
+}
+

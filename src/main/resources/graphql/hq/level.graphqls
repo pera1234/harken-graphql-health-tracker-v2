@@ -1,0 +1,10 @@
+type Level {
+    totalLevel: Int
+    count: Int
+    reports: [Report]
+}
+
+input LevelInput {
+    totalLevel: Int
+    count: Int
+}

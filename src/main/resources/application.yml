@@ -1,0 +1,48 @@
+spring.profiles.active: dev, mongodb-local
+
+graphql:
+  servlet:
+    mapping: /graphql
+    enabled: true
+    corsEnabled: true
+    maxQueryDepth: 20
+    tracingEnabled: false
+
+info:
+  app:
+    name: ${project.name}
+    version: ${version}
+
+spring:
+  cache:
+    type: caffeine
+  security:
+    user:
+      name: admin
+      password: admin
+  jackson:
+    deserialization:
+      fail-on-unknown-properties: false
+
+caching:
+
+management:
+  endpoint:
+    info:
+      enabled: true
+    health:
+      enabled: true
+
+---
+spring:
+  profiles: dev
+
+logging:
+  level:
+    root: info
+    org.springframework: info
+
+server:
+  port: 9996
+
+
