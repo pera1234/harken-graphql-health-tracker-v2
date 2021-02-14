@@ -1,6 +1,7 @@
 package com.harken.graphql.server.schema;
 
 import com.harken.graphql.server.domain.scalar.LocalDateScalar;
+import com.harken.graphql.server.exception.ApplicationGraphQLExceptionHandler;
 import com.harken.graphql.server.resolvers.GraphQLDataFetchers;
 import graphql.GraphQL;
 import graphql.execution.AsyncExecutionStrategy;
@@ -47,26 +48,11 @@ public class GraphQLProvider {
 
         GraphQLSchema graphQLSchema = buildSchema(schemas);
 
-        /**
-         * Data loading WIP
-         * There is a discrepancy in the documentation and the latest graphql-java library:
-         *
-         * DataLoaderRegistry registry = new DataLoaderRegistry();
-         * registry.register("reports", reportsDataLoader);
-         *
-         * // Instrumentation and registry instantiation changed in graphql-java v10+
-         * DataLoaderDispatcherInstrumentationOptions options = newOptions().includeStatistics(true);
-         * DataLoaderDispatcherInstrumentation dispatcherInstrumentation = new DataLoaderDispatcherInstrumentation(options);
-         * // Or
-         * DataLoaderDispatcherInstrumentation dispatcherInstrumentation = new DataLoaderDispatcherInstrumentation(registry);
-         *
-         */
-
         // Async execution is actually the default
         // ExecutorServiceExecutionStrategy allows data fetchers to be executed asynchronously via an ExecutorService
         this.graphQL = GraphQL.newGraphQL(graphQLSchema)
-                .queryExecutionStrategy(new AsyncExecutionStrategy())
-                .mutationExecutionStrategy(new AsyncSerialExecutionStrategy())
+                .queryExecutionStrategy(new AsyncExecutionStrategy(new ApplicationGraphQLExceptionHandler()))
+                .mutationExecutionStrategy(new AsyncSerialExecutionStrategy(new ApplicationGraphQLExceptionHandler()))
                 .build();
     }
 

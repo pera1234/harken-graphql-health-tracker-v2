@@ -1,6 +1,8 @@
 package com.harken.graphql.server.repositories.user;
 
 import com.harken.graphql.server.domain.user.User;
+import com.harken.graphql.server.exception.GraphQLDataMutationException;
+import com.harken.graphql.server.exception.GraphQLQueryException;
 import com.harken.graphql.server.repositories.BasicMongoRepository;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.FindAndModifyOptions;
@@ -22,15 +24,23 @@ public class UserRepository extends BasicMongoRepository<User> {
     public List<User> findAllUsers() {
         return findAll(User.class);
     }
+
     public User findById(ObjectId id) {
-        User u = findById(id, User.class);
-        return u;
+        User user = findById(id, User.class);
+        if (user == null) {
+            throw new GraphQLQueryException(400, "User not found", "userId");
+        }
+        return user;
     }
 
     public User findOne(String email) {
         Query query = new Query();
         query.addCriteria(Criteria.where("email").is(email));
-        return findOne(query, User.class);
+        User user = findOne(query, User.class);
+        if (user == null) {
+            throw new GraphQLQueryException(400, "User not found", "userId");
+        }
+        return user;
     }
 
     public User saveUser(User user) {
@@ -38,6 +48,7 @@ public class UserRepository extends BasicMongoRepository<User> {
     }
 
     public User updateUser(User user) {
+        User updatedUser = null;
         Query query = new Query(Criteria.where("id").is(user.getId()));
         Update update = new Update()
                 .set("firstname", user.getFirstname())
@@ -46,10 +57,13 @@ public class UserRepository extends BasicMongoRepository<User> {
                 .set("address.street", user.getAddress().getStreet())
                 .set("address.postcode", user.getAddress().getPostcode());
 
-        User updatedUser = mongoTemplate.findAndModify(query, update,
-                new FindAndModifyOptions().returnNew(true).upsert(false),
-                User.class);
-
+        try {
+            updatedUser = mongoTemplate.findAndModify(query, update,
+                    new FindAndModifyOptions().returnNew(true).upsert(false),
+                    User.class);
+        } catch (Exception e) {
+            throw new GraphQLDataMutationException(500, "User could not be updated: " + e.getMessage());
+        }
         return updatedUser;
     }
 
